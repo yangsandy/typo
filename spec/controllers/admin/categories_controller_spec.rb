@@ -63,4 +63,26 @@ describe Admin::CategoriesController do
     assert_raise(ActiveRecord::RecordNotFound) { Category.find(test_id) }
   end
   
+  describe "test_new or edit" do
+    before(:each) do
+      test_id = Factory(:category).id
+      get :new
+    end
+    
+    it 'should render template new' do
+      assert_template 'new'
+    end
+    
+    it "category should not be null" do
+      assigns(:category).should_not be_nil
+    end
+    
+  end
+  
+  it "test save without content" do
+    get :new
+    post :edit, :id => Factory(:category).id
+    assert_response 302
+  end
+  
 end
